@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}
+    个人信息修改
+{% endblock %}
+{% block page_css %}
+
+    <link href="/static/css/infstyle.css" rel="stylesheet" type="text/css">
+    <link href="/static/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
+    <link href="/static/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
+
+    <link href="/static/css/personal.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/stepstyle.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="/static/js/jquery-1.7.2.min.js"></script>
+    <script src="/static/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
+
+    <script>
+        $(function () {
+            $("#user-old-password").bind('keydown',function () {
+                psd = $("#user-old-password").val()
+                $.ajax({
+                    type:"POST",
+                    url:'/up_pwd/',
+                    data:{password:psd},
+                    dataType:'json',
+                    success:function (data) {
+                        $("#user-old-password").text(data.msg)
+                    }
+
+                });
+            })
+        })
+    </script>
+
+
+{% endblock %}
+{% block page_main %}
+
+{% endblock %}

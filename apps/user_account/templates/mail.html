@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>激活邮件</title>
+</head>
+<body>
+<h2>亲爱的{{ username }}您好，欢迎您注册我们的网站，请点击激活</h2>
+<a href="{{ active_url }}">立即激活</a>
+<p>如果点击无效请复制下面链接到浏览器手动打开</p>
+{{ active_url }}
+</body>
+</html>

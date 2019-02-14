@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    {{ shop.name }}
+{% endblock %}
+{% block page_css %}
+    <link href="/static/basic/css/demo.css" rel="stylesheet" type="text/css"/>
+    <link type="text/css" href="/static/css/optstyle.css" rel="stylesheet"/>
+    <link type="text/css" href="/static/css/style.css" rel="stylesheet"/>
+    <script type="text/javascript" src="/static/basic/js/jquery-1.7.min.js"></script>
+    <script type="text/javascript" src="/static/basic/js/quick_links.js"></script>
+
+    <script type="text/javascript" src="/static/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.imagezoom.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.flexslider.js"></script>
+    <script type="text/javascript" src="/static/js/list.js"></script>
+
+
+{% endblock %}
+
+{% block page_jq %}
+    <script src="/static/js/jquery3.3.1.js"></script>
+    <script>
+        $(function () {
+            $('#LikBasket').click(function () {
+                {#   往服务器提交数据#}
+                let number = $('#text_box').val();
+                let shop_id = $(this).attr('shopid');
+                data = {
+                    number: number,
+                    shop_id: shop_id,
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                };
+                $.post('{% url 'add' %}', data, function (result) {
+                    if (result && result.status === 200) {
+                        $("#J_MiniCartNum").text(result.count + '件')
+                    } else if (result && result.status === 302) {
+                        window.location.href = result.url
+                    }
+                    else {
+                        alert('添加失败！')
+                    }
+                })
+
+            })
+        })
+    </script>
+
+{% endblock %}
+{% block page_main %}
+    {% include 'include/details.html' %}
+{% endblock %}

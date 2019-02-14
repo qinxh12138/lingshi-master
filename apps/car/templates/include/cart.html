@@ -1,0 +1,146 @@
+{% load custom %}
+<script src="/static/js/cars01.js" type="text/javascript"></script>
+<body>
+{% csrf_token %}
+<section class="cartMain">
+    <div class="cartMain_hd">
+        <ul class="order_lists cartTop">
+            <li class="list_chk">
+                <!--所有商品全选-->
+                <input type="checkbox" id="all" class="whole_check">
+                <label for="all"></label>
+                全选
+            </li>
+            <li class="list_con">商品信息</li>
+            <li class="list_info">商品参数</li>
+            <li class="list_price">单价</li>
+            <li class="list_amount">数量</li>
+            <li class="list_sum">金额</li>
+            <li class="list_op">操作</li>
+        </ul>
+    </div>
+    {% for car in car_list %}
+        <div class="cartBox">
+            <div class="shop_info">
+                <div class="all_check">
+                    <!--店铺全选-->
+                    <input type="checkbox" id="shop_a" class="shopChoice">
+                    <label for="shop_a" class="shop"></label>
+                </div>
+                <div class="shop_name">
+                    店铺：<a href="javascript:;">{{ car.shop.name }}</a>
+                </div>
+            </div>
+            <div class="order_content">
+                <ul class="order_lists">
+                    <li class="list_chk">
+                        <input type="checkbox" car_id="{{ car.car_id }}" id="checkbox_{{ car.shop.shop_id }}"
+                               class="son_check">
+                        <label for="checkbox_{{ car.shop.shop_id }}"></label>
+                    </li>
+                    <li class="list_con">
+                        <div class="list_img"><a href="{% url 'detail' %}?sid={{ car.shop.shop_id }}"><img
+                                src="{{ car.img.img_url }}" alt=""></a></div>
+                        <div class="list_text"><a
+                                href="{% url 'detail' %}?sid={{ car.shop.shop_id }}">{{ car.shop.name }}</a></div>
+                    </li>
+                    <li class="list_info">
+                        <p>规格：默认</p>
+                        <p>尺寸：默认</p>
+                    </li>
+                    <li class="list_price">
+                        <p class="price">￥{{ car.shop.promote_price }}</p>
+                    </li>
+                    <li class="list_amount">
+                        <div class="amount_box">
+                            <a href="javascript:;" class="reduce reSty" id="sub" car_id="{{ car.car_id }}">-</a>
+                            <input type="text" max="{{ car.shop.stock }}" value="{{ car.shop_number }}"
+                                   id="sum" name="nums" class="sum">
+                            <a href="javascript:;" class="plus" id="add" car_id="{{ car.car_id }}">+</a>
+                        </div>
+                    </li>
+                    <li class="list_sum">
+                        <p class="sum_price">￥{{ car.shop_number|multiply:car.shop.promote_price }}</p>
+                    </li>
+                    <li class="list_op">
+                        <p class="del"><a href="javascript:;" class="delBtn" shopid="{{ car.shop.shop_id }}">移除商品</a>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+    <!--底部-->
+    <div class="bar-wrapper">
+        <div class="bar-right">
+            <div class="piece">已选商品<strong class="piece_num">0</strong>件</div>
+            <div class="totalMoney">共计: <strong class="total_text">0.00</strong></div>
+            <div class="calBtn"><a href="javascript:;">结算</a></div>
+        </div>
+    </div>
+</section>
+<section class="model_bg"></section>
+<section class="my_model">
+    <p class="title">删除宝贝<span class="closeModel">X</span></p>
+    <p>您确认要删除该宝贝吗？</p>
+    <div class="opBtn"><a href="javascript:;" class="dialog-sure">确定</a><a href="javascript:;"
+                                                                           class="dialog-close">关闭</a></div>
+</section>
+
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/carts.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+
+        $('.calBtn').click(function () {
+            let cars = [];
+            //遍历所有的选中的购物车记录
+            $('.son_check').each(function (index, ele) {
+                //获取被选中的元素的input的num 和 car_id
+                if ($(ele).prop('checked')) {
+                    let $sum = $(this);
+                    let num = $('#sum').val();
+                    let car_id = $sum.attr('car_id');
+                    cars.push({num: num, car_id: car_id})
+                }
+            });
+            if (cars.length > 0) {
+                cars_str = JSON.stringify(cars);
+
+                data = {
+                    car: cars_str,
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                };
+                $.post('{% url 'confirm' %}', data, function (result) {
+                    if (result.status === 200) {
+                        window.location.href = '/pay/order_list/?oid=' + result.oid
+                    }
+                })
+            }
+
+
+        })
+    })
+
+
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('.delBtn').click(function () {
+            let shop_id = $(this).attr('shopid');
+            data = {
+                shop_id: shop_id,
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            };
+            $.post('{% url 'delete' %}', data, function (result) {
+                if (result.status === 200) {
+                }
+            })
+        })
+    })
+</script>
+<div style="text-align:center;">
+</div>
+
+</body>

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}
+    搜索界面
+{% endblock %}
+{% block page_main %}
+
+
+    {% if shops %}
+
+        <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
+
+            {% for shop in shops %}
+                <li>
+                    <div class="list">
+                        <a href="{% url 'detail' %}?sid={{ shop.shop_id }}"><img src="{{ shop.img }}"></a>
+                        <p class="title fl">{{ shop.name }}</p>
+                        <p class="price fl">
+                            <b>¥</b>
+                            <strong>{{ shop.promote_price }}</strong>
+                        </p>
+                        <p class="number fl">
+                            销量<span>{{ shop.quantity }}</span>
+                        </p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+    {% else %}
+        <p>没有你要搜索的商品</p>
+    {% endif %}
+
+
+{% endblock %}

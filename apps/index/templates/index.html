@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load cache %}
+{% load staticfiles %}
+
+{% block title %}
+    首页
+{% endblock %}
+
+{# css文件 #}
+{% block page_css %}
+    <link href="{% static 'basic/css/demo.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/hmstyle.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+{# js文件 #}
+{% block page_jq %}
+    <script src="{% static 'AmazeUI-2.4.2/assets/js/jquery.min.js' %}"></script>
+{% endblock %}
+
+{% block page_main %}
+    {% csrf_token %}
+    {% include 'include/cate.html' %}
+{% endblock %}

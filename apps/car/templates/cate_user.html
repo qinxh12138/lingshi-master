@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    购物车
+{% endblock %}
+{% block page_css %}
+
+    <!--css类引用-->
+    <link rel="stylesheet"
+          href="//g.alicdn.com/??mui/global/3.0.31/global.css,zebra-pages/fp5/6.0.82/pc/css/index.css"/>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/reset.css">
+    <link rel="stylesheet" href="/static/css/carts.css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/reset.css">
+    <link rel="stylesheet" href="/static/css/carts.css">
+{% endblock %}
+{% block page_main %}
+    {% include 'include/cart.html' %}
+{% endblock %}
