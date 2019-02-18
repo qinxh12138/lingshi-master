@@ -24,7 +24,7 @@
                         <div class="user-infoPic">
 
                             <div class="filePic">
-                                <img class="am-circle am-img-thumbnail" src="{{ request.user.icon }}" alt=""/>
+                                <img class="am-circle am-img-thumbnail" src="/static/images/getAvatar.do.jpg" alt=""/>
                             </div>
 
 {#                            <p class="am-form-help">头像</p>#}
@@ -91,7 +91,7 @@
                                         </div>
                                     </div>
                                     <div class="fore3">
-                                        <a href="{% url 'email' %}">
+                                        <a href="#">
                                             <div class="am-btn am-btn-secondary">换绑</div>
                                         </a>
                                     </div>
@@ -139,7 +139,7 @@
         <aside class="menu">
 				<ul>
 					<li class="person active">
-						<a href="{% url 'update' %}"><i class="am-icon-user"></i>个人中心</a>
+						<a href="index.html"><i class="am-icon-user"></i>个人中心</a>
 					</li>
 					<li class="person">
 						<p><i class="am-icon-newspaper-o"></i>个人资料</p>
@@ -153,7 +153,7 @@
 					<li class="person">
 						<p><i class="am-icon-balance-scale"></i>我的交易</p>
 						<ul>
-							<li><a href="order.html">订单管理</a></li>
+							<li><a href="{% url 'order_check' %}">订单管理</a></li>
 							<li> <a href="change.html">退款售后</a></li>
 							<li> <a href="comment.html">评价商品</a></li>
 						</ul>

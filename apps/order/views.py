@@ -121,13 +121,14 @@ def pay(request):
         subject='91零食订单',
         out_trade_no=settings.PAY_LIST[-1][0],
         total_amount=str(settings.PAY_LIST[-1][1]),
-        return_url='http://127.0.0.1:8000/',  # 支付成功后前端跳转的网址
+        return_url='http://127.0.0.1:8000/pay/pay_down/',  # 支付成功后前端跳转的网址
         notify_url='后台接收支付宝支付相关信息的接口 post请求'
     )
     pay_url = settings.ALT_PAY_DEV_URL + order_url
-    # order=Order.objects.filter(order_code=settings.PAY_LIST[-1][0])
-    # uid=order.user_id.id
-    # ShopCar.objects.filter(user_id_id=uid).update(is_status=1)
+    uid = request.user.id
+    order = Order.objects.filter(user_id_id=uid, order_code=settings.PAY_LIST[-1][0]).first()
+    ShopCar.objects.filter(user_id_id=uid).update(is_status=1, o_id=order.oid, is_delete=1)
+    Order.objects.filter(user_id_id=uid, order_code=settings.PAY_LIST[-1][0]).update(pay_time=datetime.datetime.now())
     return redirect(pay_url)
 
 
@@ -135,3 +136,22 @@ def pay(request):
 def notify_callback(request):
     json_data = request.POST.get('sign')
     pass
+
+
+def pay_down(request):
+    uid = request.user.id
+    order = Order.objects.filter(user_id_id=uid,order_code=settings.PAY_LIST[-1][0]).first()
+    user = User.objects.filter(id=request.user.id).first()
+    address = user.address_set.first()
+    return render(request,'success.html',{'order':order,'address':address})
+
+
+def order_check(request):
+    uid = request.user.id
+    order = Order.objects.filter(user_id_id=uid).all()
+    for list in order:
+        list.car_list = ShopCar.objects.filter(user_id_id=uid, o_id=list.oid)
+        for car in list.car_list:
+            car.shop = car.shop_id
+            car.img = ShopImage.objects.filter(shop_id=car.shop_id).first()
+    return render(request, 'order.html', {'order':order})

@@ -3,10 +3,12 @@ from django.shortcuts import render
 
 # Create your views here.
 from apps.index.models import Shop, ShopImage, ShopProperty
+from group import settings
 
 
 def detail(request):
     sid = request.GET.get('sid')
+    settings.SID = sid
     if sid:
         try:
             shops = Shop.objects.filter(shop_id=sid).values(

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'my_base.html' %}
 {% block title %}
     地址管理
 {% endblock %}
@@ -191,7 +191,7 @@
                 <li class="person">
                     <p><i class="am-icon-newspaper-o"></i>个人资料</p>
                     <ul>
-                        <li><a href="{% url 'user_update' %}">个人信息</a></li>
+                        <li><a href="{% url 'update' %}">个人信息</a></li>
                         <li><a href="#">安全设置</a></li>
                         <li><a href="{% url 'address' %}">地址管理</a></li>
                         <li><a href="#">快捷支付</a></li>
@@ -200,7 +200,7 @@
                 <li class="person">
                     <p><i class="am-icon-balance-scale"></i>我的交易</p>
                     <ul>
-                        <li><a href="#">订单管理</a></li>
+                        <li><a href="{% url 'order_check' %}">订单管理</a></li>
                         <li><a href="#">退款售后</a></li>
                         <li><a href="#">评价商品</a></li>
                     </ul>

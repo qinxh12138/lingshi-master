@@ -10,6 +10,8 @@ urlpatterns = [
     url('register/', views.register_view, name='register'),
     url('logout/', views.logout_view, name='logout'),
     url('active/', views.active_account, name='active'),
-    url('update/', views.update_view, name='user_update'),
+    url('update_user/', views.update_view, name='update_user'),
     url('address/', views.add_address_views, name='address'),
+    url('safety/', views.safety_view, name='safety'),
+    url('up_pwd/', views.update_password, name='up_pwd'),
 ]

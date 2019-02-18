@@ -1,12 +1,12 @@
 import re
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password
+from django.core.mail import send_mail
 from django.db import transaction
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from itsdangerous import URLSafeSerializer
-
-from apps.user_account.task import send_active_mail
 from apps.index.models import User, Address
 from group import settings
 from django.template import loader
@@ -100,7 +100,7 @@ def logout_view(request):
 @csrf_exempt
 def update_view(request):
     if request.method == 'GET':
-        return render(request, 'information.html')
+        return render(request, 'personal.html')
     if request.method == 'POST':
         username = request.POST.get('username')
         first_name = request.POST.get('first_name')
@@ -112,15 +112,19 @@ def update_view(request):
         user.phone = new_phone
         user.email = new_email
         user.save()
-        return render(request, 'information.html')
+        return render(request, 'personal.html')
 
 
 @login_required
 @csrf_exempt
 def add_address_views(request):
     if request.method == 'GET':
-        address_list = Address.objects.filter(user_id=request.user.id)
-        return render(request, 'address.html', {'address_list': address_list})
+        try:
+            address_list = Address.objects.filter(user_id=request.user.id)
+            return render(request, 'address.html', {'address_list': address_list})
+        except:
+            return render(request, 'address.html')
+
     if request.method == 'POST':
         receiver = request.POST.get('receiver')
         phone = request.POST.get('phone')
@@ -148,4 +152,42 @@ def active_account(request):
         return redirect('/')
 
 
+# 发送邮件
+def send_active_mail(subject='', content=None, to=None):
+    send_mail(subject=subject,
+              message='',
+              html_message=content,
+              from_email=settings.EMAIL_HOST_USER,
+              recipient_list=to
+              )
 
+
+@login_required
+@csrf_exempt
+def safety_view(request):
+    user = request.user
+    if user:
+        return render(request, 'safety.html', {'user': user})
+    else:
+        return render(request, 'login.html')
+
+
+@login_required
+@csrf_exempt
+def update_password(request):
+    if request.method == 'GET':
+        return render(request, 'up_pwd.html')
+    if request.method == 'POST':
+        user = request.user
+        if user:
+            password = request.POST.get("password")
+            new_password = request.POST.get("newpassword")
+            pwd = user.check_password(password)
+            if pwd:
+                user.password = make_password(new_password)
+                user.save()
+                return render(request, 'up_pwd.html', {'user': user})
+            else:
+                return render(request,{'mcg':'密码输入有误'})
+        else:
+            return render(request, 'login.html')

@@ -1,19 +1,28 @@
 {% extends 'my_base.html' %}
+{% load staticfiles %}
+
 {% block title %}
-    个人信息修改
+    订单管理
 {% endblock %}
 {% block page_css %}
 
-    <link href="/static/css/infstyle.css" rel="stylesheet" type="text/css">
+    <!--css类引用-->
     <link href="/static/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
     <link href="/static/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
 
     <link href="/static/css/personal.css" rel="stylesheet" type="text/css">
-    <link href="/static/css/stepstyle.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/orstyle.css" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="/static/js/jquery-1.7.2.min.js"></script>
+    <script src="/static/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
     <script src="/static/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
 {% endblock %}
 {% block page_main %}
-
+    {% include 'include/order_01.html' %}
 {% endblock %}
+
+
+
+
+
+
+

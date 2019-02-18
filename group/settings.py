@@ -226,3 +226,4 @@ ALIPAY_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, 'key/alipay_public_key.pem')
 # SHOP_PRICE = 0
 # ORDER_ID = ''
 PAY_LIST=[]
+SID=0

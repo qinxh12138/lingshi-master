@@ -1,9 +1,13 @@
 from django.shortcuts import render
+from django.views.decorators.cache import cache_page
+
 from apps.index.models import Category, Banner, ShopImage, SubCate
+from django_redis import get_redis_connection
+import redis
 
 
 # Create your views here.
-
+@cache_page(60 * 15)
 def index(request):
     banners = Banner.objects.all()
     category_list = Category.objects.all()

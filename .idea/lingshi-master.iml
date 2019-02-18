@@ -24,12 +24,12 @@
     <option name="TEMPLATE_FOLDERS">
       <list>
         <option value="$MODULE_DIR$/apps/car/templates" />
-        <option value="$MODULE_DIR$/apps/account/templates" />
         <option value="$MODULE_DIR$/apps/search/templates" />
         <option value="$MODULE_DIR$/apps/index/templates" />
         <option value="$MODULE_DIR$/apps/detail/templates" />
         <option value="$MODULE_DIR$/apps/order/templates" />
         <option value="$MODULE_DIR$/templates" />
+        <option value="$MODULE_DIR$/apps/user_account/templates" />
       </list>
     </option>
   </component>

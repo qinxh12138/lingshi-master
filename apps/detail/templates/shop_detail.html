@@ -1,25 +1,22 @@
-{% extends 'base.html' %}
+{% extends 'my_base.html' %}
 {% load staticfiles %}
 
 {% block title %}
     {{ shop.name }}
 {% endblock %}
 {% block page_css %}
-{#    <link href="/static/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css"/>#}
-{#    <link href="/static/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css"/>#}
-{#    <link href="/static/basic/css/demo.css" rel="stylesheet" type="text/css"/>#}
-{#    <link type="text/css" href="/static/css/optstyle.css" rel="stylesheet"/>#}
-{#    <link type="text/css" href="/static/css/style.css" rel="stylesheet"/>#}
-{##}
-{#    <script type="text/javascript" src="/static/basic/js/jquery-1.7.min.js"></script>#}
-{#    <script type="text/javascript" src="/static/basic/js/quick_links.js"></script>#}
-{##}
-{#    <script type="text/javascript" src="/static/AmazeUI-2.4.2/assets/js/amazeui.js"></script>#}
-{#    <script type="text/javascript" src="/static/js/jquery.imagezoom.min.js"></script>#}
-{#    <script type="text/javascript" src="/static/js/jquery.flexslider.js"></script>#}
-{#    <script type="text/javascript" src="/static/js/list.js"></script>#}
+    <script type="text/javascript" src="/static/basic/js/jquery-1.7.min.js"></script>
+    <script type="text/javascript" src="/static/basic/js/quick_links.js"></script>
 
+    <link href="/static/basic/css/demo.css" rel="stylesheet" type="text/css"/>
+    <link type="text/css" href="/static/css/optstyle.css" rel="stylesheet"/>
+    <link type="text/css" href="/static/css/style.css" rel="stylesheet"/>
 
+    <script type="text/javascript" src="/static/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.imagezoom.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.flexslider.js"></script>
+
+    <script type="text/javascript" src="/static/js/list.js"></script>
 {% endblock %}
 
 {% block page_jq %}
@@ -50,7 +47,9 @@
         })
     </script>
 
-{% endblock %}
+{% endblock page_jq %}
+
+
 {% block page_main %}
-    {% include 'include/introduction.html' %}
-{% endblock %}
+    {% include 'include/details.html' %}
+{% endblock page_main %}

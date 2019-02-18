@@ -137,18 +137,37 @@ class ShopProperty(models.Model):
         verbose_name_plural = verbose_name
 
 
+class Order(models.Model):
+    oid = models.AutoField(verbose_name='订单ID', primary_key=True, auto_created=True)
+    order_code = models.CharField(verbose_name='订单编号', max_length=64)
+    price = models.CharField(verbose_name='总金额', max_length=64)
+    message = models.CharField(verbose_name='备注信息', max_length=255)
+    create_time = models.DateTimeField(auto_now_add=True)
+    pay_time = models.CharField(max_length=64)
+    confirm_time = models.CharField(max_length=64)
+    # 订单状态：-1代表删除，0代表取消，1代表支付，2代表未支付，3代表完成
+    status = models.IntegerField(default=1)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id', db_index=True)
+
+    class Meta:
+        db_table = 'order'
+        verbose_name = '商品订单'
+        verbose_name_plural = verbose_name
+
+
 class ShopCar(models.Model):
     car_id = models.AutoField(verbose_name='购物车ID', primary_key=True, auto_created=True)
     shop_number = models.IntegerField(verbose_name='商品数量')
     shop_id = models.ForeignKey(Shop, verbose_name='商品', on_delete=models.CASCADE, db_column='shop_id', db_index=True)
     user_id = models.ForeignKey(User, verbose_name='用户', on_delete=models.CASCADE, db_column='user_id', db_index=True)
-    #购物车显示  0显示 1删除
+    # 购物车显示  0显示 1删除
     is_delete = models.BooleanField(default=False)
-    #订单显示 0显示 1不显示
+    # 订单显示 0显示 1不显示
     status = models.BooleanField(default=True)
     # 购物状态 0未购买 1已经购买
-    is_status=models.BooleanField(default=False)
+    is_status = models.BooleanField(default=False)
     create_time = models.DateTimeField(auto_now_add=True)
+    o_id = models.ForeignKey(Order, on_delete=models.SET_NULL, db_column='oid', null=True, verbose_name='订单ID')
 
     class Meta:
         db_table = 'shop_car'
@@ -166,24 +185,6 @@ class ShopImage(models.Model):
     class Meta:
         db_table = 'shop_image'
         verbose_name = '商品图片'
-        verbose_name_plural = verbose_name
-
-
-class Order(models.Model):
-    oid = models.AutoField(verbose_name='订单ID', primary_key=True, auto_created=True)
-    order_code = models.CharField(verbose_name='订单编号', max_length=64)
-    price = models.CharField(verbose_name='总金额', max_length=64)
-    message = models.CharField(verbose_name='备注信息', max_length=255)
-    create_time = models.DateTimeField(auto_now_add=True)
-    pay_time = models.CharField(max_length=64)
-    confirm_time = models.CharField(max_length=64)
-    # 订单状态：-1代表删除，0代表取消，1代表支付，2代表未支付，3代表完成
-    status = models.IntegerField(default=1)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id', db_index=True)
-
-    class Meta:
-        db_table = 'order'
-        verbose_name = '商品订单'
         verbose_name_plural = verbose_name
 
 

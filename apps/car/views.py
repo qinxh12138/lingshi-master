@@ -11,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from apps.user_account.context_processors import shop_count
 from apps.index.models import *
-
+from group import settings
 
 @login_required
 def list(reqeust):
@@ -24,7 +24,7 @@ def list(reqeust):
     else:
         return HttpResponse('请先登录')
 
-@login_required
+
 @csrf_exempt
 def add_car(request):
     # 判断是否是ajax请求
@@ -52,12 +52,15 @@ def add_car(request):
             except Exception as e:
                 # 表示添加购物车失败
                 return JsonResponse(data={'status': 404, 'msg': 'error'})
+                # url = 'user_account/login/?next=%s' % request.path
+                # return JsonResponse(data={'status': 302, 'msg': 'success', 'url': url})
+
         else:
             # 没有登录返回登录页面
-            url = 'user_account/login/?next=%s' % request.path
+            url = '/user_account/login/?next=/detail/detail/?sid=%s' % settings.SID
             return JsonResponse(data={'status': 302, 'msg': 'success', 'url': url})
     elif request.method == 'GET':
-        return redirect('/')
+        return redirect(f'/{request.path}')
 
 
 @csrf_exempt
